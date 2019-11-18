@@ -51,14 +51,25 @@ for cnt in contours:
             line_1 = LINES[i - 1]
             line_2 = LINES[i]
         
+        if i != len(LINES) - 1:
+            line_1[0] *= -1
+            line_1[1] *= -1 
+        
         numerator = line_1[0] * line_2[0] + line_1[1] * line_2[1]
         denumerator = math.sqrt(math.pow(line_1[0], 2) + math.pow(line_1[1], 2)) * math.sqrt(math.pow(line_2[0], 2) + math.pow(line_2[1], 2))
 
         cosine = numerator / denumerator
         result = np.arccos(cosine)
-        ANGLES.append(math.degrees(result))
+        ANGLES.append(round(math.degrees(result)))
 
+    # Line fixing
+    for i in range(len(LINES)):
+        LINES[i][0] *= -1
+        LINES[i][1] *= -1
+    
     RESULT.append([POINTS, LINES, ANGLES])
+
+    
 
 
     # if len(approx) == 3:
