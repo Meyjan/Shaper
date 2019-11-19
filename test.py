@@ -72,22 +72,32 @@ def execute_detection(filename):
         for i in range(len(LINES)):
             LINES[i][0] *= -1
             LINES[i][1] *= -1
-            LINES[i] = math.sqrt(math.pow(LINES[i][0], 2) + math.pow(LINES[i][1], 2))
+            LINES[i] = int(math.sqrt(math.pow(LINES[i][0], 2) + math.pow(LINES[i][1], 2)))
 
         RESULT.append([POINTS, LINES, ANGLES])
-        fact_processing(RESULT[0])
-        return RESULT
+
+    fact_processing(RESULT[4])
+    return RESULT
 
 # Change facts into something that can be inserted into clips
 def fact_processing(facts):
     environment = clips.Environment()
     environment.load("test.clp")
 
-    fact = '(count_vertex ' + len(facts)
+    fact = '(count_vertex ' + str(len(facts[0])) + ')'
+    environment.assert_string(fact)
+
+    for i in range (len(facts[1])):
+        fact = '(detected_shape (id ' + str(i + 1) + ') (angle ' + str(facts[2][i]) + ') (length ' + str(facts[1][i]) + '))'
+        environment.assert_string(fact)
+    
+    environment.run()
+    
+    for result_fact in environment.facts():
+        print(result_fact)
 
 facts = execute_detection("assets/shape.jpg")
-fact_processing(facts)
-
+# fact_processing(facts)
 
 # assert(count_vertex 3)
 # assert(detected_shape (id 1) (length 2) (angle 90))
@@ -96,36 +106,18 @@ fact_processing(facts)
 
     # FOR PAGE DRAWING ETC.
 
-        # if len(approx) == 3:
-        #     cv2.putText(img, "Triangle", (x, y), font, 1, (0))
-        # elif len(approx) == 4:
-        #     cv2.putText(img, "Rectangle", (x, y), font, 1, (0))
-        # elif len(approx) == 5:
-        #     cv2.putText(img, "Pentagon", (x, y), font, 1, (0))
-        # elif 6 < len(approx) < 15:
-        #     cv2.putText(img, "Ellipse", (x, y), font, 1, (0))
-        # else:
-        #     cv2.putText(img, "Circle", (x, y), font, 1, (0))
+    #     if len(approx) == 3:
+    #         cv2.putText(img, "Triangle", (x, y), font, 1, (0))
+    #     elif len(approx) == 4:
+    #         cv2.putText(img, "Rectangle", (x, y), font, 1, (0))
+    #     elif len(approx) == 5:
+    #         cv2.putText(img, "Pentagon", (x, y), font, 1, (0))
+    #     elif 6 < len(approx) < 15:
+    #         cv2.putText(img, "Ellipse", (x, y), font, 1, (0))
+    #     else:
+    #         cv2.putText(img, "Circle", (x, y), font, 1, (0))
 
     # cv2.imshow("shapes", img)
     # cv2.imshow("Threshold", threshold)
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
-
-# def fact_processor(facts):
-#     # Number of lines
-#     VERTEX_COUNT = len(facts[0])
-#     EDGE_COUNT = len(facts[1])
-
-#     # Checking angle
-#     OBTUSE = 0
-#     RIGHT = 0
-#     for i in range(facts[2]):
-#         if facts[2][i] == 90:
-#             RIGHT += 1
-#         if facts[2][i] > 90:
-#             OBTUSE += 1
-
-#     ANGLE_PAIR = 0
-#     for i in range(facts[2]):
-#         if facts

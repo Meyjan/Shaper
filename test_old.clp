@@ -4,20 +4,6 @@
     (slot length)
 )
 
-(deffunction minus (?a ?b)
-    (- ?a ?b)
-)
-
-(deffunction absolute (?a)
-    (abs ?a)
-)
-
-(deffunction margin_below_6 (?a ?b)
-    (bind ?c minus ?a ?b)
-    (bind ?d absolute ?c)
-    (< ?d 6)
-)
-
 ;Checking triangle
 (defrule triangle_check
     (count_vertex 3)
@@ -70,9 +56,9 @@
     (detected_shape (id 1) (angle ?a))
     (detected_shape (id 2) (angle ?b))
     (detected_shape (id 3) (angle ?c))
-    (test(< ?a 90))
-    (test(< ?b 90))
-    (test(< ?c 90))
+    (< ?a 90)
+    (< ?b 90)
+    (< ?c 90)
     (shape triangle)
     =>
     (assert (shape acute_triangle))
@@ -80,12 +66,9 @@
 
 ;Checking equilateral triangle
 (defrule equilateral_triangle_check
-    (detected_shape (id 1) (length ?n1))
-    (detected_shape (id 2) (length ?n2))
-    (detected_shape (id 3) (length ?n3))
-    (test(< (abs (- ?n1 ?n2)) 6))
-    (test(< (abs (- ?n1 ?n2)) 6))
-    (test(< (abs (- ?n2 ?n3)) 6))
+    (detected_shape (id 1) (length ?n))
+    (detected_shape (id 2) (length ?n))
+    (detected_shape (id 3) (length ?n))
     (shape triangle)
     =>
     (assert (shape equilateral_triangle))
@@ -93,9 +76,8 @@
 
 ;Checking isosceles triangle
 (defrule isosceles_triangle_check
-    (detected_shape (id ?n) (length ?x1))
-    (detected_shape (id ?m & ~?n) (length ?x2))
-    (test(< (abs (- ?x1 ?x2)) 6))
+    (detected_shape (id ?n) (length ?x))
+    (detected_shape (id ?m & ~?n) (length ?x))
     (shape triangle)
     =>
     (assert (shape isosceles_triangle))
@@ -104,12 +86,10 @@
 
 ; Checking parallelogram
 (defrule parallelogram_check
-    (detected_shape (id ?n) (length ?x1))
-    (detected_shape (id ?m & ~?n) (length ?x2))
-    (detected_shape (id ?l & ~?n & ~?m) (length ?y1))
-    (detected_shape (id ?k & ~?n & ~?m & ~?l) (length ?y2))
-    (test(< (abs (- ?x1 ?x2)) 6))
-    (test(< (abs (- ?y1 ?y2)) 6))    
+    (detected_shape (id ?n) (length ?x))
+    (detected_shape (id ?m & ~?n) (length ?x))
+    (detected_shape (id ?l & ~?n & ~?m) (length ?y))
+    (detected_shape (id ?k & ~?n & ~?m & ~?l) (length ?y))
     (shape quadrilateral)
     =>
     (assert (shape parallelogram))
@@ -141,11 +121,8 @@
     (detected_shape (id ?l & ~?n & ~?m) (angle ?c))
     (detected_shape (id ?k & ~?l & ~?m & ~?n) (angle ?d))
     (detected_shape (id ?j) (length ?x))
-    (detected_shape (id ?i & ~?j) (length ?y))
-    (test(> (abs (- ?x ?y)) 6))
-    (detected_shape (id ?h & ~?i & ~?j) (length ?z))
-    (test(> (abs (- ?z ?x)) 6))
-    (test(> (abs (- ?z ?y)) 6))
+    (detected_shape (id ?i & ~?j) (length ?y & ~?x))
+    (detected_shape (id ?h & ~?i & ~?j) (length ~?y & ~?x))
     (test (= (+ ?a ?c) 180))
     (test (= (+ ?b ?d) 180)) 
     (shape quadrilateral)
@@ -155,9 +132,8 @@
 
 ; Checking isosceles trapezoid
 (defrule isosceles_trapezoid
-    (detected_shape (id ?n) (length ?x1))
-    (detected_shape (id ?m & ~?n) (length ?x2))
-    (test(< (abs (- ?x1 ?x2)) 6))
+    (detected_shape (id ?n) (length ?x))
+    (detected_shape (id ?m & ~?n) (length ?x))
     (shape trapezoid)
     =>
     (assert (shape isosceles_trapezoid))
@@ -183,21 +159,11 @@
 
 ; Checking equilateral pentagram
 (defrule equilateral_pentagram_check
-    (detected_shape (id 1) (length ?x1))
-    (detected_shape (id 2) (length ?x2))
-    (detected_shape (id 3) (length ?x3))
-    (detected_shape (id 4) (length ?x4))
-    (detected_shape (id 5) (length ?x5))
-    (test(< (abs (- ?x1 ?x2)) 6))
-    (test(< (abs (- ?x1 ?x3)) 6))
-    (test(< (abs (- ?x1 ?x4)) 6))
-    (test(< (abs (- ?x1 ?x5)) 6))
-    (test(< (abs (- ?x2 ?x3)) 6))
-    (test(< (abs (- ?x2 ?x4)) 6))
-    (test(< (abs (- ?x2 ?x5)) 6))
-    (test(< (abs (- ?x3 ?x4)) 6))
-    (test(< (abs (- ?x3 ?x5)) 6))
-    (test(< (abs (- ?x4 ?x5)) 6))
+    (detected_shape (id 1) (length ?x))
+    (detected_shape (id 2) (length ?x))
+    (detected_shape (id 3) (length ?x))
+    (detected_shape (id 4) (length ?x))
+    (detected_shape (id 5) (length ?x))
     (shape pentagram)
     =>
     (assert (shape equilateral_pentagram))
@@ -205,27 +171,12 @@
 
 ; Checking equilateral heax
 (defrule equilateral_pentagram_check
-    (detected_shape (id 1) (length ?x1))
-    (detected_shape (id 2) (length ?x2))
-    (detected_shape (id 3) (length ?x3))
-    (detected_shape (id 4) (length ?x4))
-    (detected_shape (id 5) (length ?x5))
-    (detected_shape (id 6) (length ?x6))
-    (test(< (abs (- ?x1 ?x2)) 6))
-    (test(< (abs (- ?x1 ?x3)) 6))
-    (test(< (abs (- ?x1 ?x4)) 6))
-    (test(< (abs (- ?x1 ?x5)) 6))
-    (test(< (abs (- ?x1 ?x6)) 6))
-    (test(< (abs (- ?x2 ?x3)) 6))
-    (test(< (abs (- ?x2 ?x4)) 6))
-    (test(< (abs (- ?x2 ?x5)) 6))
-    (test(< (abs (- ?x2 ?x6)) 6))
-    (test(< (abs (- ?x3 ?x4)) 6))
-    (test(< (abs (- ?x3 ?x5)) 6))
-    (test(< (abs (- ?x3 ?x6)) 6))
-    (test(< (abs (- ?x4 ?x5)) 6))
-    (test(< (abs (- ?x4 ?x6)) 6))
-    (test(< (abs (- ?x5 ?x6)) 6))
+    (detected_shape (id 1) (length ?x))
+    (detected_shape (id 2) (length ?x))
+    (detected_shape (id 3) (length ?x))
+    (detected_shape (id 4) (length ?x))
+    (detected_shape (id 5) (length ?x))
+    (detected_shape (id 6) (length ?x))
     =>
     (assert (shape equillateral_hexagram))
 )
