@@ -1,0 +1,36 @@
+Urutan pengecekan
+1. Cek jumlah titik sudut
+Titik sudut = 3 => Segitiga
+Titik sudut = 4 => Segiempat
+Titik sudut = 5 => Segilima
+Titik sudut = 6 => Segienam
+
+IF SEGITIGA:
+2. Cek jika ketiga sudut sama => sama sisi
+3. Cek jika dua sudut sama => sama kaki
+	3.1 Cek sudut yang lain 90 derajat => sama kaki siku-siku
+	3.2 Cek sudut yang lain lebih dari 90 derajat => sama kaki tumpul
+	3.3 Else => sama kaki lancip
+4. Cek apakah terdapat salah satu sudut yang > 90 derajat => segitiga tumpul
+5. Cek apakah terdapat salah satu sudut yang = 90 derajat => segitiga siku-siku
+6. Else => segitiga lancip
+
+IF SEGIEMPAT:
+1. Ambil 2 2 sisi. Kalau terdapat 2 pasangan yang sama panjang: jajar genjang
+	1.1 IF semua sudut 90 derajat => segi empat beraturan
+	1.2 ELSE => layang-layang
+2. Else IF terdapat 1 pasangan sudut 180 derajat: Trapesium
+	2.1 IF salah satu sudut 90 derajat: Rata
+		2.1.1 If yang 90 derajat lebih kiri => rata kiri
+		2.1.2 ELSE: rata kanan
+	2.2 IF Ada 1 pasangan sisi sama panjang: sama kaki
+3. ELSE: Tidak beraturan
+
+
+IF SEGILIMA:
+1. if semua sudut 108 derajat => segi lima beraturan
+2. Else => segi lima sembarang
+
+IF SEGIENAM:
+1. if semua sudut 120 derajat => segi enam beraturan
+2. Else => segi enam sembarang
