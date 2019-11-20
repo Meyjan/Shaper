@@ -4,20 +4,6 @@
     (slot length)
 )
 
-(deffunction minus (?a ?b)
-    (- ?a ?b)
-)
-
-(deffunction absolute (?a)
-    (abs ?a)
-)
-
-(deffunction margin_below_6 (?a ?b)
-    (bind ?c minus ?a ?b)
-    (bind ?d absolute ?c)
-    (< ?d 6)
-)
-
 ;Checking triangle
 (defrule triangle_check
     (count_vertex 3)

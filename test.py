@@ -3,6 +3,27 @@ import numpy as np
 import math
 import clips
 
+array_facts = []
+array_shapes = []
+array_rules = []
+
+def printArray(arr):
+    for element in arr:
+        print(element)
+
+def parseArrayShapes(facts):
+    for fact in facts:
+        tempFact = ""
+        if ("(shape" in fact):
+            tempFact = fact
+            tempFact = fact.replace("(shape ", "").replace(")", "")
+            array_shapes.append(tempFact)
+        else:
+            continue
+
+def parseArrayRules():
+    pass
+
 # Executing image detection and getting liens and angles
 def execute_detection(filename):
     RESULT = []
@@ -94,9 +115,20 @@ def fact_processing(facts):
     environment.run()
     
     for result_fact in environment.facts():
-        print(result_fact)
+        array_facts.append(str(result_fact))
+
 
 facts = execute_detection("assets/shape.jpg")
+parseArrayShapes(array_facts)
+print("- facts :")
+printArray(array_facts)
+print()
+print("- shapes :")
+printArray(array_shapes)
+print()
+print("- rules :")
+printArray(array_rules)
+
 # fact_processing(facts)
 
 # assert(count_vertex 3)
