@@ -203,8 +203,8 @@
     (assert (shape equilateral_pentagram))
 )
 
-; Checking equilateral heax
-(defrule equilateral_pentagram_check
+; Checking equilateral hexagram
+(defrule equilateral_hexagram_check
     (detected_shape (id 1) (length ?x1))
     (detected_shape (id 2) (length ?x2))
     (detected_shape (id 3) (length ?x3))
