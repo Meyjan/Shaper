@@ -9,6 +9,7 @@
     (count_vertex 3)
     =>
     (assert (shape triangle))
+    (assert (rule_used triangle_check))
 )
 
 ;Checking quadrilateral
@@ -16,6 +17,7 @@
     (count_vertex 4)
     =>
     (assert (shape quadrilateral))
+    (assert (rule_used quadrilateral_check))
 )
 
 ;Checking pentagram
@@ -23,6 +25,7 @@
     (count_vertex 5)
     =>
     (assert (shape pentagram))
+    (assert (rule_used pentagram_check))
 )
 
 ;Checking hexagram
@@ -30,6 +33,7 @@
     (count_vertex 6)
     =>
     (assert (shape hexagram))
+    (assert (rule_used hexagram_check))
 )
 
 
@@ -40,6 +44,7 @@
     (shape triangle)
     =>
     (assert (shape obtuse_triangle))
+    (assert (rule_used obtuse_triangle_check))
 )
 
 ;Checking right triangle
@@ -49,6 +54,7 @@
     (shape triangle)
     =>
     (assert (shape right_triangle))
+    (assert (rule_used right_triangle_check))
 )
 
 ;Checking acute triangle
@@ -62,6 +68,7 @@
     (shape triangle)
     =>
     (assert (shape acute_triangle))
+    (assert (rule_used acute_triangle_check))
 )
 
 ;Checking equilateral triangle
@@ -75,6 +82,7 @@
     (shape triangle)
     =>
     (assert (shape equilateral_triangle))
+    (assert (rule_used equilateral_triangle_check))
 )
 
 ;Checking isosceles triangle
@@ -85,6 +93,7 @@
     (shape triangle)
     =>
     (assert (shape isosceles_triangle))
+    (assert (rule_used isosceles_triangle_check))
 )
 
 
@@ -99,6 +108,7 @@
     (shape quadrilateral)
     =>
     (assert (shape parallelogram))
+    (assert (rule_used parallelogram_check))
 )
 
 ; Checking rectangle
@@ -110,6 +120,7 @@
     (shape parallelogram)
     =>
     (assert (shape rectangle))
+    (assert (rule_used rectangle_check))
 )
 
 ; Checking kite
@@ -118,6 +129,7 @@
     (shape parallelogram)
     =>
     (assert (shape kite)) 
+    (assert (rule_used kite))
 )
 
 ; Checking trapezoid
@@ -137,6 +149,7 @@
     (shape quadrilateral)
     =>
     (assert (shape trapezoid))
+    (assert (rule_used trapezoid_check))
 )
 
 ; Checking isosceles trapezoid
@@ -147,6 +160,7 @@
     (shape trapezoid)
     =>
     (assert (shape isosceles_trapezoid))
+    (assert (rule_used isosceles_trapezoid))
 )
 
 ; Checking left trapezoid
@@ -156,6 +170,7 @@
     (shape trapezoid)
     =>
     (assert (shape left_trapezoid))
+    (assert (rule_used left_trapezoid_check))
 )
 
 ; Checking right trapezoid
@@ -165,6 +180,7 @@
     (shape trapezoid)
     =>
     (assert (shape right_trapezoid))
+    (assert (rule_used right_trapezoid_check))
 )
 
 ; Checking equilateral pentagram
@@ -187,6 +203,7 @@
     (shape pentagram)
     =>
     (assert (shape equilateral_pentagram))
+    (assert (rule_used equilateral_pentagram_check))
 )
 
 ; Checking equilateral hexagram
@@ -214,4 +231,5 @@
     (test(< (abs (- ?x5 ?x6)) 6))
     =>
     (assert (shape equillateral_hexagram))
+    (assert (rule_used equilateral_hexagram_check))
 )
