@@ -11,18 +11,23 @@ def printArray(arr):
     for element in arr:
         print(element)
 
-def parseArrayShapes(facts):
+def parseArrayShapesAndRules(facts):
     for fact in facts:
         tempFact = ""
-        if ("(shape" in fact):
+
+        if (fact[0] == "f"):
+            tempFact = fact[8:]
+        else:
             tempFact = fact
-            tempFact = fact.replace("(shape ", "").replace(")", "")
+
+        if ("(shape" in fact):
+            tempFact = tempFact.replace("(shape ", "").replace(")", "")
             array_shapes.append(tempFact)
+        elif ("(rule_used" in fact):
+            tempFact = tempFact.replace("(rule_used ", "").replace(")", "")
+            array_rules.append(tempFact)
         else:
             continue
-
-def parseArrayRules():
-    pass
 
 # Executing image detection and getting liens and angles
 def execute_detection(filename):
@@ -119,7 +124,7 @@ def fact_processing(facts):
 
 
 facts = execute_detection("assets/shape.jpg")
-parseArrayShapes(array_facts)
+parseArrayShapesAndRules(array_facts)
 print("- facts :")
 printArray(array_facts)
 print()
