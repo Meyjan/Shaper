@@ -4,15 +4,7 @@
     (slot length)
 )
 
-(deffunction minus (?a ?b)
-    (- ?a ?b)
-)
-
-(deffunction absolute (?a)
-    (abs ?a)
-)
-
-;Checking triangleg
+;Checking triangle
 (defrule triangle_check
     (count_vertex 3)
     =>
