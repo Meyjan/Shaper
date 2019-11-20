@@ -12,13 +12,7 @@
     (abs ?a)
 )
 
-(deffunction margin_below_6 (?a ?b)
-    (bind ?c minus ?a ?b)
-    (bind ?d absolute ?c)
-    (< ?d 6)
-)
-
-;Checking triangle
+;Checking triangleg
 (defrule triangle_check
     (count_vertex 3)
     =>
