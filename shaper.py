@@ -23,7 +23,7 @@ ScreenManager:
 	id: scr_mngr
 	Screen:
 		name: 'grid'
-		canvas.before:
+		canvas:
 			Color:
 				rgba: 0.75, 0.75, 0.75, 1
 			Rectangle:
@@ -60,58 +60,60 @@ ScreenManager:
 			height: self.minimum_height
 			padding: dp(4), dp(25)
 			spacing: dp(15)
-			BoxLayout:
+			FloatLayout:
 				orientation: 'vertical'
 				size_hint_y: 0
-				center: self.parent.center
-				canvas.before:
+				canvas:
 					Color:
 						rgba: 1, 1, 1, 1
 					Rectangle:
-						id: image
-						source: './assets/shapes.jpg'
 						pos: self.pos
 						size: self.size
+				Image:
+					id: image
+					pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+					source: ''
 				MDLabel:
 					id: image1
-					pos: 0, -200
 					font_style: 'Display2'
+			        pos_hint: {'center_x': 0.5, 'center_y': 0.55}
 					text: 'Please open an image'
 					halign: 'center'
 					valign: 'bottom'
 					opacity: 1
 				MDLabel:
 					id: image2
-					pos: 0, 200
 					font_style: 'Display1'
+			        pos_hint: {'center_x': 0.5, 'center_y': 0.45}
 					text: 'Click Open Image Button'
 					halign: 'center'
 					valign: 'bottom'
 					opacity: 1
-			BoxLayout:
+			FloatLayout:
 				orientation: 'vertical'
 				size_hint_y: 0
-				center: self.parent.center
-				canvas.before:
+				canvas:
 					Color:
 						rgba: 1, 1, 1, 1
 					Rectangle:
-						id: shapeTree
-						source: './assets/shapes.jpg'
 						pos: self.pos
 						size: self.size
+				Image:
+					id: shapeTree
+					pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+					source: ''
 				MDLabel:
 					id: shapeTree1
-					pos: 0, -200
 					font_style: 'Display2'
+			        pos_hint: {'center_x': 0.5, 'center_y': 0.55}
 					text: 'Please choose a shape'
 					halign: 'center'
 					valign: 'bottom'
 					opacity: 1
 				MDLabel:
 					id: shapeTree2
-					pos: 0, 200
 					font_style: 'Display1'
+			        pos_hint: {'center_x': 0.5, 'center_y': 0.45}
 					text: 'Double Click Shape Tree Item'
 					halign: 'center'
 					valign: 'bottom'
@@ -126,12 +128,6 @@ ScreenManager:
 				padding: dp(0), dp(10)
 				spacing: dp(10)
 				Button:
-					canvas.before:
-						Color:
-							rgba: 1, 1, 1, 1
-						Rectangle:
-							pos: self.pos
-							size: self.size
 					id: button1
 					size_hint: 0.6, 0.4
 					elevation_normal: 2
@@ -139,13 +135,8 @@ ScreenManager:
 					opposite_colors: True
 					text: "Open Image"
 					pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+					on_press: app.openImage()
 				Button:
-					canvas.before:
-						Color:
-							rgba: 1, 1, 1, 1
-						Rectangle:
-							pos: self.pos
-							size: self.size
 					id: button2
 					size_hint: 0.6, 0.4
 					elevation_normal: 2
@@ -153,13 +144,8 @@ ScreenManager:
 					opposite_colors: True
 					text: "Open Rule Editor"
 					pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+					on_press: app.showTree()
 				Button:
-					canvas.before:
-						Color:
-							rgba: 1, 1, 1, 1
-						Rectangle:
-							pos: self.pos
-							size: self.size
 					id: button3
 					size_hint: 0.6, 0.4
 					elevation_normal: 2
@@ -168,12 +154,6 @@ ScreenManager:
 					text: "Show Rules"
 					pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 				Button:
-					canvas.before:
-						Color:
-							rgba: 1, 1, 1, 1
-						Rectangle:
-							pos: self.pos
-							size: self.size
 					id: button4
 					size_hint: 0.6, 0.4
 					elevation_normal: 2
@@ -197,7 +177,7 @@ ScreenManager:
 					halign: 'left'
 					spacing: dp(40)
 					padding: dp(20), dp(20)
-					canvas.before:
+					canvas:
 						Color:
 							rgba: 1, 1, 1, 1
 						Rectangle:
@@ -283,13 +263,13 @@ ScreenManager:
 			padding: dp(8), dp(8)
 			spacing: dp(25)
 			BoxLayout:
-				canvas.before:
+				canvas:
 					Rectangle:
 						source:'./assets/shapes.jpg'
 						pos: self.pos
 						size: self.size
 			BoxLayout:
-				canvas.before:
+				canvas:
 					Color:
 						rgba: 1, 1, 1, 1
 					Rectangle:
@@ -307,7 +287,7 @@ ScreenManager:
 						halign: 'left'
 						valign: 'top'
 			BoxLayout:
-				canvas.before:
+				canvas:
 					Color:
 						rgba: 1, 1, 1, 1
 					Rectangle:
@@ -334,6 +314,16 @@ class Shaper(App):
 	def build(self):
 		main_widget = Builder.load_string(main_widget_kv)
 		return main_widget
+
+	def openImage(self):
+		self.root.ids.image.source = './assets/black.jpg'
+		self.root.ids.image1.opacity = 0
+		self.root.ids.image2.opacity = 0
+
+	def showTree(self):
+		self.root.ids.shapeTree.source = './assets/black.jpg'
+		self.root.ids.shapeTree1.opacity = 0
+		self.root.ids.shapeTree2.opacity = 0
 
 if __name__ == '__main__':
     Shaper().run()
