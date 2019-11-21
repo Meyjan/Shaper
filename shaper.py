@@ -68,6 +68,7 @@ ScreenManager:
 					Color:
 						rgba: 1, 1, 1, 1
 					Rectangle:
+						id: image
 						source: './assets/shapes.jpg'
 						pos: self.pos
 						size: self.size
@@ -95,11 +96,12 @@ ScreenManager:
 					Color:
 						rgba: 1, 1, 1, 1
 					Rectangle:
+						id: shapeTree
 						source: './assets/shapes.jpg'
 						pos: self.pos
 						size: self.size
 				MDLabel:
-					id: shape1
+					id: shapeTree1
 					pos: 0, -200
 					font_style: 'Display2'
 					text: 'Please choose a shape'
@@ -107,7 +109,7 @@ ScreenManager:
 					valign: 'bottom'
 					opacity: 1
 				MDLabel:
-					id: shape2
+					id: shapeTree2
 					pos: 0, 200
 					font_style: 'Display1'
 					text: 'Double Click Shape Tree Item'
