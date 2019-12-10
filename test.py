@@ -6,11 +6,28 @@ import clips
 array_facts = []
 array_shapes = []
 array_rules = []
+all_rules = []
+
+# API
+def getFacts():
+    return array_facts
+
+def getShapes():
+    return array_shapes
+
+def getRules():
+    return array_rules
+
+def getAllRules():
+    return all_rules
+
+# --------------------------------------------------------------
 
 def printArray(arr):
     for element in arr:
         print(element)
 
+# Method for parsing an array into shapes, rules, and facts
 def parseArrayShapesAndRules(facts):
     for fact in facts:
         tempFact = ""
@@ -29,6 +46,33 @@ def parseArrayShapesAndRules(facts):
         else:
             continue
 
+def filter_image(array_points):
+    shape_valid = True
+    temp_array = []
+
+    for point in array_points:
+        if (point[0] == 0 or point[1] == 0):
+            shape_valid = False
+            break
+        else:
+            point_valid = True
+            for temp_point in temp_array:
+                # Checking if there is a point which located too near with each other
+                if abs(temp_point[0] - point[0]) < 4 and abs(temp_point[1] - point[1]) < 4:
+                    point_valid = False
+                    break
+
+            if point_valid:
+                temp_array.append(point)
+
+    if (len(temp_array) < 2):
+        return (False, temp_array)
+    if (shape_valid):
+        return (True, temp_array)
+    else:
+        return (False, temp_array)
+
+
 # Executing image detection and getting liens and angles
 def execute_detection(filename):
     RESULT = []
@@ -45,15 +89,23 @@ def execute_detection(filename):
         POINTS = []
         LINES = []
         ANGLES = []
+        GRADIENT = []
 
         approx = cv2.approxPolyDP(cnt, 0.01*cv2.arcLength(cnt, True), True)
         cv2.drawContours(img, [approx], 0, (0), 5)
         x = approx.ravel()[0]
         y = approx.ravel()[1]
 
+
         # GET POINTS
         for i in range(len(approx)):
             POINTS.append(approx[i][0])
+
+        image_filtered = filter_image(POINTS)
+        if (image_filtered[0]):
+            POINTS = image_filtered[1]
+        else:
+            continue
 
         # GET LENGTH
         for i in range(len(POINTS)):
@@ -72,6 +124,11 @@ def execute_detection(filename):
             if delta_y < 5 and delta_y > -5:
                 delta_y = 0
             LINES.append([delta_x, delta_y])
+
+            if (delta_x == 0):
+                GRADIENT.append(math.inf)
+            else:
+                GRADIENT.append(round((delta_y / delta_x), 2))
 
         # GET VERTEXES
         for i in range(len(LINES)):
@@ -100,10 +157,15 @@ def execute_detection(filename):
             LINES[i][1] *= -1
             LINES[i] = int(math.sqrt(math.pow(LINES[i][0], 2) + math.pow(LINES[i][1], 2)))
 
-        RESULT.append([POINTS, LINES, ANGLES])
+        RESULT.append([POINTS, LINES, ANGLES, GRADIENT])
 
-    fact_processing(RESULT[4])
-    return RESULT
+    if (len(RESULT) > 0):
+        processed_fact = []
+        for res in RESULT:
+            processed_fact.append(fact_processing(res))
+        return (True, processed_fact)
+    else:
+        return (False, RESULT)
 
 # Change facts into something that can be inserted into clips
 def fact_processing(facts):
@@ -114,14 +176,18 @@ def fact_processing(facts):
     environment.assert_string(fact)
 
     for i in range (len(facts[1])):
-        fact = '(detected_shape (id ' + str(i + 1) + ') (angle ' + str(facts[2][i]) + ') (length ' + str(facts[1][i]) + '))'
+        fact = '(detected_shape (id ' + str(i + 1) + ') (angle ' + str(facts[2][i]) + ') (length ' + str(facts[1][i]) + ') (gradient ' + str(facts[3][i]) + '))'
         environment.assert_string(fact)
-    
+
     environment.run()
-    
+
     for result_fact in environment.facts():
         array_facts.append(str(result_fact))
 
+    for result_rule in environment.rules():
+        all_rules.append(str(result_rule))
+
+    return (array_facts, all_rules)
 
 facts = execute_detection("assets/shape.jpg")
 parseArrayShapesAndRules(array_facts)
@@ -141,20 +207,20 @@ printArray(array_rules)
 
 
 
-    # FOR PAGE DRAWING ETC.
+#     FOR PAGE DRAWING ETC.
 
-    #     if len(approx) == 3:
-    #         cv2.putText(img, "Triangle", (x, y), font, 1, (0))
-    #     elif len(approx) == 4:
-    #         cv2.putText(img, "Rectangle", (x, y), font, 1, (0))
-    #     elif len(approx) == 5:
-    #         cv2.putText(img, "Pentagon", (x, y), font, 1, (0))
-    #     elif 6 < len(approx) < 15:
-    #         cv2.putText(img, "Ellipse", (x, y), font, 1, (0))
-    #     else:
-    #         cv2.putText(img, "Circle", (x, y), font, 1, (0))
+#         if len(approx) == 3:
+#             cv2.putText(img, "Triangle", (x, y), font, 1, (0))
+#         elif len(approx) == 4:
+#             cv2.putText(img, "Rectangle", (x, y), font, 1, (0))
+#         elif len(approx) == 5:
+#             cv2.putText(img, "Pentagon", (x, y), font, 1, (0))
+#         elif 6 < len(approx) < 15:
+#             cv2.putText(img, "Ellipse", (x, y), font, 1, (0))
+#         else:
+#             cv2.putText(img, "Circle", (x, y), font, 1, (0))
 
-    # cv2.imshow("shapes", img)
-    # cv2.imshow("Threshold", threshold)
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
+#     cv2.imshow("shapes", img)
+#     cv2.imshow("Threshold", threshold)
+#     cv2.waitKey(0)
+#     cv2.destroyAllWindows()
