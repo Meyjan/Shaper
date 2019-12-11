@@ -19,7 +19,7 @@ from kivy.factory import Factory
 from kivy.properties import ObjectProperty
 from kivy.uix.popup import Popup
 
-# from test import *
+from test import *
 
 import webbrowser
 import os
@@ -47,7 +47,8 @@ main_widget_kv = '''
 			spacing: 10
 			BoxLayout:
 				orientation: 'vertical'
-				padding: 25,0,25,5
+				padding: 0,0,25,5
+				# padding: 25,0,25,5
 				MDLabel:
 					pos_hint: {'center-x': 0.5, 'center-y': 1}
 					font_size: 13
@@ -55,25 +56,54 @@ main_widget_kv = '''
 					text: 'Source Image'
 					halign: 'center'
 					valign: 'top'
-				Image:
+				BoxLayout:
 					canvas:
 						Color:
 							rgba: 1, 1, 1, 1
 						Rectangle:
 							pos: self.pos
 							size: self.size
-					id: source
-					pos_hint: {'center_x': 0.5}
-					source: root.sourceimg
-					allow_stretch: True
-					keep_ratio: True
 					size_hint_y: None
 					size_hint_x: None
-					width: self.parent.width - 5
-					height: self.parent.width - 5/self.image_ratio
+					width: self.parent.width
+					height: self.parent.width
+					Image:
+						id: source
+						pos_hint: {'center_x': 0.5}
+						source: root.sourceimage
+						allow_stretch: True
+						keep_ratio: True
+						size_hint_y: None
+						size_hint_x: None
+						width: self.parent.width
+						height: self.parent.height
+						MDLabel:
+							id: image1
+							font_size: 25
+							size_hint_y: None
+							size_hint_x: None
+							width: self.parent.width
+							pos: 10, 400
+							pos_hint: {'center_x': 0.5}
+							text: 'Please open an image'
+							halign: 'center'
+							valign: 'bottom'
+							opacity: 1
+						MDLabel:
+							id: image2
+							font_size: 20
+							pos: 10, 360
+							size_hint_y: None
+							size_hint_x: None
+							width: self.parent.width
+							pos_hint: {'center_x': 0.5}
+							text: 'Click Open Image Button'
+							halign: 'center'
+							valign: 'bottom'
+							opacity: 1
 			BoxLayout:
 				orientation: 'vertical'
-				padding: 25,0,25,5
+				padding: 0,0,25,5
 				MDLabel:
 					pos_hint: {'center-x': 0.5, 'center-y': 1}
 					font_size: 13
@@ -81,22 +111,51 @@ main_widget_kv = '''
 					text: 'Detection Image'
 					halign: 'center'
 					valign: 'top'
-				Image:
+				BoxLayout:
 					canvas:
 						Color:
 							rgba: 1, 1, 1, 1
 						Rectangle:
 							pos: self.pos
 							size: self.size
-					id: detection
-					pos_hint: {'center_x': 0.5}
-					source: root.detectionimg
-					allow_stretch: True
-					keep_ratio: True
 					size_hint_y: None
 					size_hint_x: None
-					width: self.parent.width - 5
-					height: self.parent.width - 5 /self.image_ratio
+					width: self.parent.width
+					height: self.parent.width
+					Image:
+						id: detection
+						pos_hint: {'center_x': 0.5}
+						source: root.detectionimage
+						allow_stretch: True
+						keep_ratio: True
+						size_hint_y: None
+						size_hint_x: None
+						width: self.parent.width
+						height: self.parent.width
+						MDLabel:
+							id: shapeTree1
+							font_size: 25
+							size_hint_y: None
+							size_hint_x: None
+							width: self.parent.width
+							pos: 325, 400
+							pos_hint: {'center_x': 0.5, 'center_y': 0.55}
+							text: 'Please choose a shape'
+							halign: 'center'
+							valign: 'bottom'
+							opacity: 1
+						MDLabel:
+							id: shapeTree2
+							font_size: 20
+							pos: 325, 360
+							size_hint_y: None
+							size_hint_x: None
+							width: self.parent.width
+							pos_hint: {'center_x': 0.5, 'center_y': 0.45}
+							text: 'Double Click Shape Tree Item'
+							halign: 'center'
+							valign: 'bottom'
+							opacity: 1
 			BoxLayout:
 				orientation: 'vertical'
 				size_hint_x: 0.5
@@ -112,8 +171,7 @@ main_widget_kv = '''
 						color: hex('#000000')
 						font_size: 12
 						size_hint: (1, 0.05)
-						on_release:
-							root.manager.current= 'Screen2'
+						on_release: root.manager.current= 'Screen2'
 					Button:
 						text: 'Open Rule Editor'
 						elevation_normal: 2
@@ -122,8 +180,7 @@ main_widget_kv = '''
 						color: hex('#000000')
 						font_size: 12
 						size_hint: (1, 0.05)
-						on_release:
-							root.openRuleEditor()
+						on_release: root.openRuleEditor()
 					Button:
 						text: 'Show Rules'
 						elevation_normal: 2
@@ -132,7 +189,7 @@ main_widget_kv = '''
 						color: hex('#000000')
 						font_size: 12
 						size_hint: (1, 0.05)
-						on_release: root.changeRulesText(root.arrayRules)
+						on_release: root.manager.current= 'Screen3'
 					Button:
 						text: 'Show Facts'
 						elevation_normal: 2
@@ -141,16 +198,16 @@ main_widget_kv = '''
 						color: hex('#000000')
 						font_size: 12
 						size_hint: (1, 0.05)
-						on_release: root.changeFactsText(root.arrayFacts)
+						on_release: root.manager.current= 'Screen4'
 					Button:
-						text: 'Search'
+						text: 'Detect'
 						elevation_normal: 2
 						background_normal: ''
 						background_color: hex('#FFFFFF')
 						color: hex('#000000')
 						font_size: 12
 						size_hint: (1, 0.05)
-						on_release: root.search()
+						on_release: root.detect()
 				BoxLayout:
 					orientation: 'vertical'
 					padding: 0, 5, 0, 5
@@ -167,16 +224,13 @@ main_widget_kv = '''
 						canvas.before:
 							Color:
 								rgba: 0,0,0,1
-								# rgba: 1,1,1,1
 							Rectangle:
 								size: self.size
 								pos: self.pos
 						ScrollView:
 							CustomTreeView:
 								id: tv
-								root_options: {'text': 'Shapes','font_size': 11}
-								# root_options: {'text': 'Shapes','font_size': 11, 'color': hex('#000000')}
-								hide_root: False
+								hide_root: True
 								indent_level: 4
 								size_hint_y: None
 		BoxLayout:
@@ -202,11 +256,11 @@ main_widget_kv = '''
 							pos: self.pos
 							size: self.size
 					MDLabel:
-						id: result
+						id: detectionResult
 						pos_hint: {'center-x': 0.5, 'center-y': 0.5}
 						font_style: 'Display1'
 						color: hex('#000000')
-						text: root.result
+						text: root.detectionResult
 						text_size: self.size
 						halign: 'center'
 						valign: 'center'
@@ -232,13 +286,13 @@ main_widget_kv = '''
 							pos: self.pos
 					ScrollView:
 						MDLabel:
+							id: factsText
 							pos_hint: {'y': 5}
 							size_hint_y: None
 							size: self.texture_size
 							font_size: 13
-							color: 0,0,0,10
+							color: 0,0,0,1
 							padding: 10, 5
-							# text: "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum"
 							text: root.factsText
 							halign: 'left'
 							valign: 'top'
@@ -263,13 +317,13 @@ main_widget_kv = '''
 							pos: self.pos
 					ScrollView:
 						MDLabel:
+							id: rulesText
 							pos_hint: {'y': 5}
 							size_hint_y: None
 							size: self.texture_size
 							font_size: 13
-							color: 0,0,0,10
+							color: 0,0,0,1
 							padding: 10, 5
-							# text: "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum"
 							text: root.rulesText
 							halign: 'left'
 							valign: 'top'
@@ -302,23 +356,74 @@ main_widget_kv = '''
 		font_size: 20
 		size_hint: (0.15, 0.05)
 		pos_hint: {'center_x': 0.93, 'center_y': 0.025}
-		on_release:
-			root.manager.current= 'Screen1'
+		on_release: root.manager.current= 'Screen1'
 
 <Screen3>:
-	Button:
-		text: 'Return'
-		background_normal: ''
-		background_color: 1,1,1,1
-		color: 0,0,0,1
-		font_size: 20
-		size_hint: (0.15, 0.05)
-		pos_hint: {'center_x': 0.5, 'center_y': 0.05}
-		on_release:
-			root.manager.current= 'Screen1'
+	on_enter: root.showAllRules()
+	BoxLayout:
+		orientation: 'vertical'
+		BoxLayout:
+			padding: 10,10,10,10
+			canvas.before:
+				Color:
+					rgba: 1,1,1,1
+				Rectangle:
+					size: self.size
+					pos: self.pos
+			ScrollView:
+				MDLabel:
+					id: allrules
+					size_hint_y: None
+					size: self.texture_size
+					font_size: 13
+					color: 0,0,0,1
+					halign: 'left'
+					valign: 'top'
+		Button:
+			text: 'Return'
+			background_normal: ''
+			background_color: 1,1,1,1
+			color: 0,0,0,1
+			font_size: 20
+			size_hint: (0.15, 0.05)
+			pos_hint: {'center_x': 0.5, 'center_y': 0.05}
+			on_release: root.manager.current= 'Screen1'
+
+<Screen4>:
+	on_enter: root.showSourceFacts()
+	BoxLayout:
+		orientation: 'vertical'
+		BoxLayout:
+			padding: 10,10,10,10
+			canvas.before:
+				Color:
+					rgba: 1,1,1,1
+				Rectangle:
+					size: self.size
+					pos: self.pos
+			ScrollView:
+				MDLabel:
+					id: sourcefacts
+					size_hint_y: None
+					size: self.texture_size
+					font_size: 13
+					color: 0,0,0,1
+					halign: 'left'
+					valign: 'top'
+		Button:
+			text: 'Return'
+			background_normal: ''
+			background_color: 1,1,1,1
+			color: 0,0,0,1
+			font_size: 20
+			size_hint: (0.15, 0.05)
+			pos_hint: {'center_x': 0.5, 'center_y': 0.05}
+			on_release: root.manager.current= 'Screen1'
 '''
 
 file_path = ''
+start = -1
+created = -1
 active_shape = -1
 
 Config.set('graphics', 'resizale', 0)
@@ -330,7 +435,9 @@ class CustomLabel(TreeViewLabel):
 
 	def selected_node(self):
 		global active_shape
+
 		active_shape = self.internal_id
+
 
 class CustomTreeView(TreeView):
 	internal_id = NumericProperty()
@@ -340,110 +447,165 @@ class CustomTreeView(TreeView):
 			node.selected_node()
 
 class Screen1(Screen):
-	sourceimg = StringProperty('')
-	detectionimg = StringProperty('')
-	result = StringProperty('')
-
+	sourceimage = StringProperty('')
+	detectionimage = StringProperty('')
+	detectionResult = StringProperty('')
 	factsText = StringProperty('')
 	rulesText = StringProperty('')
 
-	arrayFacts = ''
-	arrayRules = ''
-
-	def changeArrayFacts(self, text):
-		self.arrayFacts = text
-
-	def changeArrayRules(self, text):
-		self.arrayRules = text
+	result = ''
 
 	def changeStatus(self, success):
 		if (success):
-			self.result = 'Success'
+			self.detectionResult = 'Success'
 		else:
-			self.result = 'Fail'
-			text = ['']
-			self.changeFactsText(text)
-			self.changeRulesText(text)
+			self.detectionResult = 'Fail'
+			self.changeFactsText('')
+			self.changeRulesText('')
 			self.changeDetection('')
+			self.ids.shapeTree1.text = 'Please choose a shape'
+			self.ids.shapeTree1.opacity = 1
+			self.ids.shapeTree2.opacity = 1
 
 	def changeSource(self):
-		self.sourceimg = file_path
+		self.sourceimage = file_path
 
 	def changeDetection(self, path):
-		self.detectionimg = path
-
-	def changeFactsText(self, arrayText):
-		text = ''
-		for i in arrayText:
-			text += i + '\n'
-		self.factsText = text
-
-	def changeRulesText(self, arrayText):
-		text = ''
-		for i in arrayText:
-			text += i + '\n'
-		self.rulesText = text
+		self.detectionimage = path
+		self.ids.shapeTree1.opacity = 0
+		self.ids.shapeTree2.opacity = 0
 
 	def openRuleEditor(self):
 		osCommandString = "notepad.exe test.clp"
 		os.system(osCommandString)
 
+	def changeFactsText(self, facts):
+		text = ''
+
+		for fact in facts:
+			text += fact + '\n'
+
+		self.factsText = text
+
+	def changeRulesText(self, rules):
+		text = ''
+
+		for rule in rules:
+			text += rule + '\n'
+
+		self.rulesText = text
+
 	def createTree(self):
-		tv = CustomTreeView(internal_id=0)
-		self.ids.tv.bind(minimum_height=self.ids.tv.setter('height'))
+		global created
 
-		segitiga = self.ids.tv.add_node(CustomLabel(text='triangle', font_size='11', internal_id=1))
-		self.ids.tv.add_node(CustomLabel(text='acute triangle', font_size='11', internal_id=2), segitiga)
-		self.ids.tv.add_node(CustomLabel(text='obtuse triangle', font_size='11', internal_id=3), segitiga)
-		self.ids.tv.add_node(CustomLabel(text='right triangle', font_size='11', internal_id=4), segitiga)
+		if(created == -1):
+			created = 1
+			tv = CustomTreeView(internal_id=0)
+			self.ids.tv.bind(minimum_height=self.ids.tv.setter('height'))
 
-		segitigaSamaKaki = self.ids.tv.add_node(CustomLabel(text='isosceles triangle', font_size='11', internal_id=5), segitiga)
-		self.ids.tv.add_node(CustomLabel(text='acute isosceles triangle', font_size='11', internal_id=6), segitigaSamaKaki)
-		self.ids.tv.add_node(CustomLabel(text='obtuse isosceles triangle', font_size='11', internal_id=7), segitigaSamaKaki)
-		self.ids.tv.add_node(CustomLabel(text='right isosceles triangle', font_size='11', internal_id=8), segitigaSamaKaki)
+			root = self.ids.tv.add_node(CustomLabel(text='shapes', font_size='11', internal_id=0))
 
-		self.ids.tv.add_node(CustomLabel(text='equilateral triangle', font_size='11', internal_id=9), segitiga)
+			segitiga = self.ids.tv.add_node(CustomLabel(text='triangle', font_size='11', internal_id=1), root)
+			self.ids.tv.add_node(CustomLabel(text='acute triangle', font_size='11', internal_id=2), segitiga)
+			self.ids.tv.add_node(CustomLabel(text='obtuse triangle', font_size='11', internal_id=3), segitiga)
+			self.ids.tv.add_node(CustomLabel(text='right triangle', font_size='11', internal_id=4), segitiga)
 
-		segiempat = self.ids.tv.add_node(CustomLabel(text='quadrilateral', font_size='11', internal_id=10))
+			segitigaSamaKaki = self.ids.tv.add_node(CustomLabel(text='isosceles triangle', font_size='11', internal_id=5), segitiga)
+			self.ids.tv.add_node(CustomLabel(text='acute isosceles triangle', font_size='11', internal_id=6), segitigaSamaKaki)
+			self.ids.tv.add_node(CustomLabel(text='obtuse isosceles triangle', font_size='11', internal_id=7), segitigaSamaKaki)
+			self.ids.tv.add_node(CustomLabel(text='right isosceles triangle', font_size='11', internal_id=8), segitigaSamaKaki)
 
-		jajaranGenjang = self.ids.tv.add_node(CustomLabel(text='parallelogram', font_size='11', internal_id=11), segiempat)
-		self.ids.tv.add_node(CustomLabel(text='regular quadrilateral', font_size='11', internal_id=12), jajaranGenjang)
-		self.ids.tv.add_node(CustomLabel(text='kite-shaped quadrilateral', font_size='11', internal_id=13), jajaranGenjang)
+			self.ids.tv.add_node(CustomLabel(text='equilateral triangle', font_size='11', internal_id=9), segitiga)
 
-		trapesium = self.ids.tv.add_node(CustomLabel(text='trapezium', font_size='11', internal_id=14), segiempat)
-		self.ids.tv.add_node(CustomLabel(text='trapezium isosceles', font_size='11', internal_id=15), trapesium)
-		self.ids.tv.add_node(CustomLabel(text='trapezium flattened right', font_size='11', internal_id=16), trapesium)
-		self.ids.tv.add_node(CustomLabel(text='trapezium flattened left', font_size='11', internal_id=17), trapesium)
+			segiempat = self.ids.tv.add_node(CustomLabel(text='quadrilateral', font_size='11', internal_id=10), root)
 
-		segilima = self.ids.tv.add_node(CustomLabel(text = 'pentagon', font_size = '11', internal_id = 18))
-		self.ids.tv.add_node(CustomLabel(text = 'isosceles pentagon', font_size = '11', internal_id = 19), segilima)
+			jajaranGenjang = self.ids.tv.add_node(CustomLabel(text='parallelogram', font_size='11', internal_id=11), segiempat)
+			self.ids.tv.add_node(CustomLabel(text='regular quadrilateral', font_size='11', internal_id=12), jajaranGenjang)
+			self.ids.tv.add_node(CustomLabel(text='kite-shaped quadrilateral', font_size='11', internal_id=13), jajaranGenjang)
 
-		segienam = self.ids.tv.add_node(CustomLabel(text = 'hexagon', font_size = '11', internal_id = 20))
-		self.ids.tv.add_node(CustomLabel(text = 'isosceles hexagon', font_size = '11', internal_id = 21), segienam)
+			trapesium = self.ids.tv.add_node(CustomLabel(text='trapezium', font_size='11', internal_id=14), segiempat)
+			self.ids.tv.add_node(CustomLabel(text='trapezium isosceles', font_size='11', internal_id=15), trapesium)
+			self.ids.tv.add_node(CustomLabel(text='trapezium flattened right', font_size='11', internal_id=16), trapesium)
+			self.ids.tv.add_node(CustomLabel(text='trapezium flattened left', font_size='11', internal_id=17), trapesium)
+
+			segilima = self.ids.tv.add_node(CustomLabel(text = 'pentagon', font_size = '11', internal_id = 18), root)
+			self.ids.tv.add_node(CustomLabel(text = 'isosceles pentagon', font_size = '11', internal_id = 19), segilima)
+
+			segienam = self.ids.tv.add_node(CustomLabel(text = 'hexagon', font_size = '11', internal_id = 20), root)
+			self.ids.tv.add_node(CustomLabel(text = 'isosceles hexagon', font_size = '11', internal_id = 21), segienam)
 
 	def open(self, path, filename):
 		with open(os.path.join(path, filename[0])) as f:
 			print(f.read())
 
+	def detect(self):
+		desired_shape = parseShapeIndex(active_shape)
+
+		if (desired_shape == '-1'):
+			print ('Invalid desire')
+			return
+
+		shape_result = testedImageExists(desired_shape, self.result[1])
+
+		if (shape_result[0] == False):
+			self.ids.shapeTree1.text = "Shape is not detected"
+			self.ids.shapeTree1.opacity = 1
+			self.ids.shapeTree2.opacity = 0
+			self.detectionimage = ""
+			self.changeFactsText("")
+			self.changeRulesText("")
+			self.detectionResult = "Fail"
+		else:
+			self.changeFactsText(self.result[1][shape_result[1]][0])
+			self.changeRulesText(self.result[1][shape_result[1]][2])
+			self.detectionimage = str(self.result[1][shape_result[1]][3])
+			self.detectionResult = "Success"
+
+			self.ids.shapeTree1.opacity = 0
+			self.ids.shapeTree2.opacity = 0
+
 	def update(self, instance):
 		self.changeSource()
 
+		if(file_path != ''):
+			self.ids.image1.opacity = 0
+			self.ids.image2.opacity = 0
+
+		self.result = execute_detection(file_path)
+
+		if(start == 1):
+			self.changeStatus(self.result[0])
+
+
 class Screen2(Screen):
 	def select(self, *args):
+		global file_path
+		global start
+
 		try:
-			global file_path
-			self.filepath.text = args[1][0]
+			self.ids.filepath.text = '  ' + args[1][0]
 			file_path = args[1][0]
+			start = 1
 		except:
 			pass
 
 	def changeSource(self, instance):
 		self.ids.source.source = StringProperty(file_path)
 
+class Screen3(Screen):
+	def showAllRules(self):
+		self.ids.allrules.text = initShowRules()
+
+class Screen4(Screen):
+	def showSourceFacts(self):
+		self.ids.sourcefacts.text = initShowFacts()
+
 main_widget = Builder.load_string(main_widget_kv)
 sm = ScreenManager()
 sm.add_widget(Screen1(name='Screen1'))
 sm.add_widget(Screen2(name='Screen2'))
+sm.add_widget(Screen3(name='Screen3'))
+sm.add_widget(Screen4(name='Screen4'))
 
 class Shaper(App):
 	def build(self):

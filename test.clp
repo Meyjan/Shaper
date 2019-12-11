@@ -97,6 +97,36 @@
     (assert (rule_used isosceles_triangle_check))
 )
 
+; Cheking isosceles triangle
+(defrule acute_isosceles_triangle_check
+    (shape triangle)
+    (shape isosceles_triangle)
+    (shape acute_triangle)
+    =>
+    (assert (shape acute_isosceles_triangle))
+    (assert (rule_used acute_isosceles_triangle_check))
+)
+
+; Cheking isosceles triangle
+(defrule right_isosceles_triangle_check
+    (shape triangle)
+    (shape isosceles_triangle)
+    (shape right_triangle)
+    =>
+    (assert (shape right_isosceles_triangle))
+    (assert (rule_used right_isosceles_triangle_check))
+)
+
+; Cheking isosceles triangle
+(defrule obtuse_isosceles_triangle_check
+    (shape triangle)
+    (shape isosceles_triangle)
+    (shape obtuse_triangle)
+    =>
+    (assert (shape obtuse_isosceles_triangle))
+    (assert (rule_used obtuse_isosceles_triangle_check))
+)
+
 
 ; Checking parallelogram
 (defrule parallelogram_check
@@ -105,7 +135,7 @@
     (detected_shape (id ?l & ~?n & ~?m) (length ?y1))
     (detected_shape (id ?k & ~?n & ~?m & ~?l) (length ?y2))
     (test(< (abs (- ?x1 ?x2)) 6))
-    (test(< (abs (- ?y1 ?y2)) 6))    
+    (test(< (abs (- ?y1 ?y2)) 6))
     (shape quadrilateral)
     =>
     (assert (shape parallelogram))
