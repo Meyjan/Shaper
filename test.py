@@ -294,7 +294,7 @@ def parseShapeIndex(shape):
     elif (shape == 19):
         return 'equilateral_pentagram'
     elif (shape == 20):
-        return 'hexagon'
+        return 'hexagram'
     elif (shape == 21):
         return 'equilateral_hexagram'
     else:
